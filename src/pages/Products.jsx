@@ -1,29 +1,49 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../components/Header'
 import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllProducts } from './redux/Slices/productSlice'
+import { faBottleDroplet } from '@fortawesome/free-solid-svg-icons'
 
 
 
 function Products() {
+  const {loading,allProducts,error}=useSelector(state=>state.productReducer)
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+    dispatch(getAllProducts())
+  },[])
   return (
     <>
-      <Header />
+      <Header insideProducts/>
       <div className='m-5'>
-        <div className='row pt-5'>
+       {
+        loading?
+        <div className="text-center">loading</div>
+        :
+         <div className='row pt-5'>
           {/* duplicate column according to products*/}
-          <div className='col-md-3 mb-2'>
+        {allProducts?.length>0?
+        allProducts?.map(product=>(
+            <div key={product?.id} className='col-md-3 mb-2'>
             {/* card */}
             <Card>
-              <Card.Img style={{ height: '250px' }} variant="top" src="https://tse3.mm.bing.net/th/id/OIP.ZHIPM-cqX1-Z5VUsuH4f3QHaFF?rs=1&pid=ImgDetMain&o=7&rm=3" />
+              <Card.Img style={{ height: '250px' }} variant="top" src={product?.thumbnail} />
               <Card.Body className='text-center'>
-                <Card.Title>Card Title</Card.Title>
-                <Link to={'/products/id'} className='btn btn-primary'>View More...</Link>
+                <Card.Title>{product?.title}</Card.Title>
+                <Link to={`/products/${product?.id}`} className='btn btn-primary'>View More...</Link>
               </Card.Body>
             </Card>
           </div>
 
+        )):
+        <div className="fw-bolder">Product not found</div>
+        }<p></p>
+
         </div>
+       }
       </div>
       
     </>

@@ -6,7 +6,7 @@ import { Navbar, Nav, Container,Badge } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 
-function Header() {
+function Header({insideProducts}) {
   return (
     <Navbar expand="lg" className="bg-primary fixed-top">
       <Container>
@@ -14,8 +14,8 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Item><input type='text' className='form-control' placeholder='Search Products Here!!!'/> </Nav.Item>
-          <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faHeart} className='btn text-danger'/>Wishlist <Badge pill bg="secondary">10</Badge></Link>
+{     insideProducts &&       <Nav.Item><input type='text' className='form-control' placeholder='Search Products Here!!!'/> </Nav.Item>
+}          <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faHeart} className='btn text-danger'/>Wishlist <Badge pill bg="secondary">10</Badge></Link>
           <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faCartPlus} className='btn text-success'/>Cart <Badge pill bg="secondary">10</Badge></Link>
           </Nav>
         </Navbar.Collapse>
