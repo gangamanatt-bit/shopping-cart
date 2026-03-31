@@ -3,10 +3,15 @@ import { faCartPlus, faTruckFast } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Navbar, Nav, Container,Badge } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { searchProduct } from '../pages/redux/Slices/productSlice'
+
+
 
 
 function Header({insideProducts}) {
+  const dispatch=useDispatch()
   return (
     <Navbar expand="lg" className="bg-primary fixed-top">
       <Container>
@@ -14,7 +19,7 @@ function Header({insideProducts}) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-{     insideProducts &&       <Nav.Item><input type='text' className='form-control' placeholder='Search Products Here!!!'/> </Nav.Item>
+{     insideProducts &&       <Nav.Item><input onChange={e=>dispatch(searchProduct(e.target.value))} type='text' className='form-control' placeholder='Search Products Here!!!'/> </Nav.Item>
 }          <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faHeart} className='btn text-danger'/>Wishlist <Badge pill bg="secondary">10</Badge></Link>
           <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faCartPlus} className='btn text-success'/>Cart <Badge pill bg="secondary">10</Badge></Link>
           </Nav>
