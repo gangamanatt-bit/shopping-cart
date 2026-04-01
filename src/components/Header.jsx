@@ -3,7 +3,7 @@ import { faCartPlus, faTruckFast } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Navbar, Nav, Container,Badge } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { searchProduct } from '../pages/redux/Slices/productSlice'
 
@@ -12,6 +12,8 @@ import { searchProduct } from '../pages/redux/Slices/productSlice'
 
 function Header({insideProducts}) {
   const dispatch=useDispatch()
+  const userWishlist=useSelector(state=>state.wishlistReducer)
+  const userCart=useSelector(state=>state.cartReducer)
   return (
     <Navbar expand="lg" className="bg-primary fixed-top">
       <Container>
@@ -20,8 +22,8 @@ function Header({insideProducts}) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
 {     insideProducts &&       <Nav.Item><input onChange={e=>dispatch(searchProduct(e.target.value))} type='text' className='form-control' placeholder='Search Products Here!!!'/> </Nav.Item>
-}          <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faHeart} className='btn text-danger'/>Wishlist <Badge pill bg="secondary">10</Badge></Link>
-          <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faCartPlus} className='btn text-success'/>Cart <Badge pill bg="secondary">10</Badge></Link>
+}          <Link to={'/wishlist'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faHeart} className='btn text-danger'/>Wishlist <Badge pill bg="secondary">{userWishlist?.length}</Badge></Link>
+          <Link to={'/cart'} className='text-light text-decoration-none fw-bold'><FontAwesomeIcon icon={faCartPlus} className='btn text-success'/>Cart <Badge pill bg="secondary">{userCart?.length}</Badge></Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
